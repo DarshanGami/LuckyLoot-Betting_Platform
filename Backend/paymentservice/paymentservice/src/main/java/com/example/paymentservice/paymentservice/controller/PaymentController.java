@@ -1,58 +1,68 @@
 package com.example.paymentservice.paymentservice.controller;
 
+import com.example.paymentservice.paymentservice.model.BankDetails;
 import com.example.paymentservice.paymentservice.service.PaymentService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.razorpay.Order;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
-@RequestMapping("/api/payments")
+@RequestMapping("/api/payment")
+@RequiredArgsConstructor
 public class PaymentController {
 
     private final PaymentService paymentService;
 
-    @Autowired
-    public PaymentController(PaymentService paymentService) {
-        this.paymentService = paymentService;
-    }
-
-    @PostMapping("/create-order")
-    public ResponseEntity<?> createOrder(@RequestParam double amount) {
+    @PostMapping("/deposit")
+    public ResponseEntity<?> createDeposit(@RequestBody Map<String, Object> request) {
         try {
-            String order = paymentService.createOrder(amount);
-            return ResponseEntity.ok(order);
+            String userId = request.get("userId").toString();
+            double amount = Double.parseDouble(request.get("amount").toString());
+
+            Order order = paymentService.createDepositOrder(userId, amount);
+            return ResponseEntity.ok(Map.of(
+                    "orderId", order.get("id"),
+                    "amount", order.get("amount"),
+                    "currency", order.get("currency")
+            ));
         } catch (Exception e) {
-            return ResponseEntity.status(500).body("Order creation failed: " + e.getMessage());
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
     }
 
-    @PostMapping("/success")
-    public ResponseEntity<String> paymentSuccess(
-            @RequestParam String userId,
-            @RequestParam double amount) {
-
-        boolean updated = paymentService.handlePaymentSuccess(userId, amount);
-        if (updated) {
-            return ResponseEntity.ok("Wallet updated successfully.");
-        } else {
-            return ResponseEntity.status(404).body("User not found or update failed.");
+    // Simulated confirmation after test payment is \"successful\"
+    @PostMapping("/confirm")
+    public ResponseEntity<?> confirmDeposit(@RequestBody Map<String, String> request) {
+        try {
+            String orderId = request.get("orderId");
+            paymentService.confirmDeposit(orderId);
+            return ResponseEntity.ok(Map.of("status", "Payment confirmed and user balance updated"));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
     }
 
     @PostMapping("/withdraw")
-    public ResponseEntity<String> withdrawToBank(
-            @RequestParam String userId,
-            @RequestParam double amount) {
-
+    public ResponseEntity<?> withdraw(@RequestBody Map<String, Object> request) {
         try {
-            boolean success = paymentService.withdrawToBank(userId, amount);
-            if (success) {
-                return ResponseEntity.ok("Withdrawal successful.");
-            } else {
-                return ResponseEntity.status(400).body("Withdrawal failed. Check balance or user info.");
-            }
+            String userId = request.get("userId").toString();
+            double amount = Double.parseDouble(request.get("amount").toString());
+
+            Map<String, String> bank = (Map<String, String>) request.get("bankDetails");
+            BankDetails bankDetails = BankDetails.builder()
+                    .accountHolderName(bank.get("accountHolderName"))
+                    .accountNumber(bank.get("accountNumber"))
+                    .ifsc(bank.get("ifsc"))
+                    .build();
+
+            String msg = paymentService.withdraw(userId, amount, bankDetails);
+            return ResponseEntity.ok(Map.of("message", msg));
         } catch (Exception e) {
-            return ResponseEntity.status(500).body("Withdrawal error: " + e.getMessage());
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
     }
 }
+
