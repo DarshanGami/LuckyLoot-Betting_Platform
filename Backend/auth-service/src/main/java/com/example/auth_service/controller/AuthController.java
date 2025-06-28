@@ -96,16 +96,6 @@ public class AuthController {
 
 
 
-//just for testing
-//    @GetMapping("/profile")
-//    public String profile(@RequestHeader("Authorization") String authHeader) {
-//
-//        System.out.println("🔒 Inside /auth/profile endpoint");
-//        String token = authHeader.substring(7);
-//        String email = jwtUtil.extractEmail(token);
-//        return "Logged in as: " + email;
-//    }
-
     @GetMapping("/verify")
     public ResponseEntity<ApiResponse> verifyUser(@RequestParam String token) {
         if (!jwtUtil.validateToken(token)) {

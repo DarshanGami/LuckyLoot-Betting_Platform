@@ -23,8 +23,7 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/auth/register",
                                 "/auth/login",
-                                "/auth/verify",
-                                "/auth/test-generate-token" // optional for testing
+                                "/auth/verify"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )

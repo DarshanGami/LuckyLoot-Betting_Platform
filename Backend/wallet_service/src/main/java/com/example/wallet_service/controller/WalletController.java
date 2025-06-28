@@ -32,11 +32,6 @@ public class WalletController {
         return ResponseEntity.ok(walletService.createWallet(userId));
     }
 
-    // Get wallet balance
-    @GetMapping("/balance")
-    public ResponseEntity<Wallet> getBalance(@RequestHeader("userId") String userId) {
-        return ResponseEntity.ok(walletService.getBalance(userId));
-    }
 
     // Credit funds to wallet (e.g., deposit, winnings)
     @PostMapping("/credit")
