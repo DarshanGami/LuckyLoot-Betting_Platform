@@ -1,5 +1,5 @@
 // Correct name and package
-package com.example.paymentservice.paymentservice;
+package com.example.paymentservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

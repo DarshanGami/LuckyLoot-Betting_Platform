@@ -21,6 +21,13 @@ public class WalletService {
     private final WalletRepository walletRepository;
     private final TransactionRepository transactionRepository;
 
+    public double getBalance(String userId) {
+        Wallet wallet = walletRepository.findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("Wallet not found for user: " + userId));
+
+        return wallet.getBalance();
+    }
+
     public Wallet createWallet(String userId) {
         if (walletRepository.findByUserId(userId).isPresent()) {
             throw new RuntimeException("Wallet already exists for user");
@@ -34,13 +41,13 @@ public class WalletService {
         return walletRepository.save(wallet);
     }
 
-    public Wallet getBalance(String userId) {
+    public Wallet getWallet(String userId) {
         return walletRepository.findByUserId(userId)
                 .orElseThrow(() -> new RuntimeException("Wallet not found"));
     }
 
     public Wallet credit(String userId, CreditRequest request) {
-        Wallet wallet = getBalance(userId);
+        Wallet wallet = getWallet(userId);
 
         double newBalance = wallet.getBalance() + request.getAmount();
         wallet.setBalance(newBalance);
@@ -62,7 +69,7 @@ public class WalletService {
     }
 
     public Wallet deduct(String userId, DeductRequest request) {
-        Wallet wallet = getBalance(userId);
+        Wallet wallet = getWallet(userId);
 
         if (wallet.getBalance() < request.getAmount()) {
             throw new InsufficientBalanceException("Insufficient funds");

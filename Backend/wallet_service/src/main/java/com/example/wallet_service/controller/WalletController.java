@@ -18,6 +18,14 @@ public class WalletController {
 
     private final WalletService walletService;
 
+    @GetMapping("/balance")
+    public ResponseEntity<Double> getBalance(@RequestHeader("userId") String userId) {
+        double balance = walletService.getBalance(userId);
+        return ResponseEntity.ok(balance);
+    }
+
+
+
     // Create a wallet for the authenticated user
     @PostMapping("/create")
     public ResponseEntity<Wallet> createWallet(@RequestHeader("userId") String userId) {

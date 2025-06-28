@@ -1,5 +1,6 @@
 package com.example.auth_service.controller;
 
+import com.example.auth_service.client.ProfileClient;
 import com.example.auth_service.dto.ApiResponse;
 import com.example.auth_service.dto.LoginRequest;
 import com.example.auth_service.dto.RegisterRequest;
@@ -24,6 +25,10 @@ public class AuthController {
     @Autowired
     private JwtUtil jwtUtil;
 
+
+    @Autowired
+    private ProfileClient profileClient;
+
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @PostMapping("/register")
@@ -46,6 +51,9 @@ public class AuthController {
         newUser.setPassword(passwordEncoder.encode(request.getPassword()));
         newUser.setVerified(false); // for email verification
         userRepository.save(newUser);
+
+
+        profileClient.createEmptyProfile(newUser.getId(), newUser.getEmail());
 
         // ✅ Generate token & send email
         String token = jwtUtil.generateToken(request.getEmail());

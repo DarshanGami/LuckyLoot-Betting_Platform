@@ -1,10 +1,14 @@
 package com.example.betting_service.service;
 
+import com.example.betting_service.client.WalletClient;
+import com.example.betting_service.dto.WalletCreditRequest;
+import com.example.betting_service.dto.WalletDeductRequest;
 import com.example.betting_service.model.Bet;
 import com.example.betting_service.model.Match;
 import com.example.betting_service.repository.BetRepository;
 import com.example.betting_service.repository.MatchRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -19,8 +23,14 @@ public class BetService {
     private final BetRepository betRepository;
     private final MatchRepository matchRepository;
 
+    @Autowired
+    private WalletClient walletClient;
+
     // ✅ Place Bet
     public Bet placeBet(String userId, String matchId, String team, String oddAtBet, double amount) {
+
+
+
         Bet bet = Bet.builder()
                 .userId(userId)
                 .matchId(matchId)
@@ -35,6 +45,17 @@ public class BetService {
                 .isSettled(false)
                 .won(false)
                 .build();
+
+
+        WalletDeductRequest deductRequest = new WalletDeductRequest();
+        deductRequest.setAmount(amount);
+        deductRequest.setDescription("Bet placed for match: " + matchId);
+        deductRequest.setReferenceId("BET-" + bet.getBetId());
+        deductRequest.setType("BET_PLACED");  // ✅ Hardcoded string
+
+        String response = walletClient.deductAmount(userId, deductRequest);
+
+        System.out.println("Wallet Deduct Response: " + response);
 
         return betRepository.save(bet);
     }
@@ -95,6 +116,17 @@ public class BetService {
 
         betRepository.save(bet);
 
+
+
+        WalletCreditRequest creditRequest = new WalletCreditRequest();
+        creditRequest.setAmount(cashoutAmount);
+        creditRequest.setDescription("Cashout for BetId: " + betId);
+        creditRequest.setReferenceId("CASHOUT-" + betId);
+        creditRequest.setType("CASHOUT");
+
+        String response = walletClient.creditAmount(userId, creditRequest);
+        System.out.println("Wallet Credit Response (Cashout): " + response);
+
         return "✅ Cashout successful! Cashout Amount: " + cashoutAmount;
     }
 
@@ -107,6 +139,14 @@ public class BetService {
                     double winAmount = bet.getAmount() * Double.parseDouble(bet.getOddAtBet());
                     bet.setWon(true);
                     bet.setWinAmount(winAmount);
+                    WalletCreditRequest creditRequest = new WalletCreditRequest();
+                    creditRequest.setAmount(winAmount);
+                    creditRequest.setDescription("Bet Won - BetId: " + bet.getBetId());
+                    creditRequest.setReferenceId("WIN-" + bet.getBetId());
+                    creditRequest.setType("BET_WON");
+
+                    String response = walletClient.creditAmount(bet.getUserId(), creditRequest);
+                    System.out.println("Wallet Credit Response (Win): " + response);
                 } else {
                     bet.setWon(false);
                     bet.setWinAmount(0);

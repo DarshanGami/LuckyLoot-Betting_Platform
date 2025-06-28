@@ -1,4 +1,4 @@
-package com.example.paymentservice.paymentservice.config;
+package com.example.paymentservice.config;
 
 import com.razorpay.RazorpayClient;
 import org.springframework.context.annotation.Bean;
@@ -12,7 +12,6 @@ public class RazorpayConfig {
         // Replace with your Razorpay test credentials
         String key = "rzp_test_ps3KfdfoWuaHm0";
         String secret = "6WhbaXNOJkbuTKg7AeYNpZjL";
-
         return new RazorpayClient(key, secret);
     }
 }

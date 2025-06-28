@@ -18,7 +18,7 @@ public class ProfileController {
     @PostMapping("/create")
     public ProfileResponse create(@RequestHeader("userId") String userId,
                                   @RequestHeader("email") String email,
-                                  @RequestBody @Valid ProfileRequest request) {
+                                  @RequestBody ProfileRequest request) {
         return profileService.createProfile(userId, email, request);
     }
 
@@ -29,7 +29,7 @@ public class ProfileController {
 
     @PutMapping
     public ProfileResponse updateOwn(@RequestHeader("userId") String userId,
-                                     @RequestBody @Valid ProfileRequest request) {
+                                     @RequestBody ProfileRequest request) {
         return profileService.updateProfile(userId, request);
     }
 

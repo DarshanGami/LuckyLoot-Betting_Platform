@@ -1,21 +1,18 @@
-// ProfileRequest.java
-package com.example.profile_service.dto;
+package com.example.auth_service.dto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
 @Data
-public class ProfileRequest {
+public class CreateProfileRequest {
     private String name;
 
-//    @Pattern(regexp = "^\\+\\d{10,15}$", message = "Invalid phone number")
+    //    @Pattern(regexp = "^\\+\\d{10,15}$", message = "Invalid phone number")
     private String phone;
 
     private String dob;
     private String gender;
 
-//    @Email(message = "Invalid secondary email")
+    //    @Email(message = "Invalid secondary email")
     private String secondaryEmail;
 
     private String avatarUrl;
