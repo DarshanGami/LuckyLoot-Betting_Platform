@@ -15,15 +15,18 @@ public class JwtUtil {
 
     private final long EXPIRATION_TIME = 86400000; // 1 day in milliseconds
 
-    public String generateToken(String email) {
+    // ✅ Generate JWT with userId as subject and email as claim
+    public String generateToken(String userId, String email) {
         return Jwts.builder()
-                .setSubject(email)
+                .setSubject(userId)                        // ✅ userId
+                .claim("email", email)                     // ✅ email as custom claim
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
                 .compact();
     }
 
+    // ✅ Validate token
     public boolean validateToken(String token) {
         try {
             Jwts.parser()
@@ -35,7 +38,8 @@ public class JwtUtil {
         }
     }
 
-    public String extractEmail(String token) {
+    // ✅ Extract userId from subject
+    public String extractUserId(String token) {
         return Jwts.parser()
                 .setSigningKey(SECRET_KEY)
                 .parseClaimsJws(token)
@@ -43,5 +47,12 @@ public class JwtUtil {
                 .getSubject();
     }
 
-
+    // ✅ Extract email from custom claim
+    public String extractEmail(String token) {
+        return Jwts.parser()
+                .setSigningKey(SECRET_KEY)
+                .parseClaimsJws(token)
+                .getBody()
+                .get("email", String.class);
+    }
 }

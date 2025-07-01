@@ -72,7 +72,8 @@ public class BetService {
 
     // ✅ Cashout logic
     public String cashoutBet(String userId, String betId) {
-        Optional<Bet> betOpt = betRepository.findById(betId);
+        Optional<Bet> betOpt = betRepository.findByBetId(betId);
+        System.out.println("✅ BetId received in controller: " + betId);
 
         if (betOpt.isEmpty()) {
             return "❌ Bet not found!";

@@ -1,7 +1,14 @@
 package com.example.auth_service.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDateTime;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ApiResponse {
     private String message;
     private LocalDateTime timestamp;
@@ -9,13 +16,5 @@ public class ApiResponse {
     public ApiResponse(String message) {
         this.message = message;
         this.timestamp = LocalDateTime.now();
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public LocalDateTime getTimestamp() {
-        return timestamp;
     }
 }

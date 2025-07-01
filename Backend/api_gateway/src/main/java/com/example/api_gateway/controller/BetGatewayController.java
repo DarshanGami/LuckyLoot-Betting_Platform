@@ -8,7 +8,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("/gateway/bet")
+@RequestMapping("/gateway")
 @RequiredArgsConstructor
 public class BetGatewayController {
 
@@ -17,12 +17,11 @@ public class BetGatewayController {
     @Value("${service.bet.url}")
     private String betServiceBaseUrl;
 
-    // ✅ 1. Place Bet (requires userId from JWT)
-    @PostMapping("/place")
+    // ✅ 1. Place Bet
+    @PostMapping("/bet/place")
     public Mono<ResponseEntity<String>> placeBet(@RequestHeader("Authorization") String authHeader,
                                                  @RequestAttribute String userId,
                                                  @RequestBody String requestBody) {
-        // ✅ Inject userId into header for Bet Service if needed (or Bet Service directly uses it)
         return webClientBuilder.build()
                 .post()
                 .uri(betServiceBaseUrl + "/bet/place")
@@ -33,49 +32,63 @@ public class BetGatewayController {
                 .toEntity(String.class);
     }
 
-    // ✅ 2. Get Bets for user (needs userId from JWT)
-    @GetMapping("/user-bets")
+    // ✅ 2. Get All Bets for User
+    @GetMapping("/bet/my-bets")
     public Mono<ResponseEntity<String>> getUserBets(@RequestHeader("Authorization") String authHeader,
                                                     @RequestAttribute String userId) {
         return webClientBuilder.build()
                 .get()
-                .uri(betServiceBaseUrl + "/bet/user")
+                .uri(betServiceBaseUrl + "/bet/my-bets")
                 .header("userId", userId)
                 .retrieve()
                 .toEntity(String.class);
     }
 
-    // ✅ 3. Get Single Bet (betId as query param or path param)
-    @GetMapping("/get/{betId}")
-    public Mono<ResponseEntity<String>> getSingleBet(@PathVariable String betId) {
+    // ✅ 3. Get Single Bet by betId
+    @GetMapping("/bet/get/{betId}")
+    public Mono<ResponseEntity<String>> getSingleBet(@RequestHeader("Authorization") String authHeader,
+                                                     @RequestAttribute String userId,
+                                                     @PathVariable String betId) {
         return webClientBuilder.build()
                 .get()
-                .uri(betServiceBaseUrl + "/bet/" + betId)
-                .retrieve()
-                .toEntity(String.class);
-    }
-
-    // ✅ 4. Cashout Bet (userId from JWT)
-    @PostMapping("/cashout/{betId}")
-    public Mono<ResponseEntity<String>> cashout(@RequestHeader("Authorization") String authHeader,
-                                                @RequestAttribute String userId,
-                                                @PathVariable String betId) {
-        return webClientBuilder.build()
-                .post()
-                .uri(betServiceBaseUrl + "/bet/cashout/" + betId)
+                .uri(betServiceBaseUrl + "/bet/single/" + betId)
                 .header("userId", userId)
                 .retrieve()
                 .toEntity(String.class);
     }
 
-    // ✅ 5. Settle Bets for Match (No JWT needed - Admin/Internal use)
-    @PostMapping("/settle")
+    // ✅ 4. Cashout Bet (note: Internal expects RequestParam)
+    @PostMapping("/bet/cashout")
+    public Mono<ResponseEntity<String>> cashoutBet(@RequestHeader("Authorization") String authHeader,
+                                                   @RequestAttribute String userId,
+                                                   @RequestParam String betId) {
+        return webClientBuilder.build()
+                .post()
+                .uri(betServiceBaseUrl + "/bet/cashout?betId=" + betId)
+                .header("userId", userId)
+                .retrieve()
+                .toEntity(String.class);
+    }
+
+
+    // ✅ 5. Settle Bets (Admin/Internal)
+    @PostMapping("/bet/settle")
     public Mono<ResponseEntity<String>> settleMatch(@RequestBody String requestBody) {
         return webClientBuilder.build()
                 .post()
                 .uri(betServiceBaseUrl + "/bet/settle")
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(requestBody)
+                .retrieve()
+                .toEntity(String.class);
+    }
+
+    // ✅ 6. Get All Matches (for frontend)
+    @GetMapping("match/all-matches")
+    public Mono<ResponseEntity<String>> getAllMatches() {
+        return webClientBuilder.build()
+                .get()
+                .uri(betServiceBaseUrl + "/match/all")
                 .retrieve()
                 .toEntity(String.class);
     }

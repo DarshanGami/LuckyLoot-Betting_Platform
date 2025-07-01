@@ -1,0 +1,409 @@
+{
+	"info": {
+		"_postman_id": "86912048-6adb-4b29-95cd-3a3b0889aab0",
+		"name": "LL API GATEWAY",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "43592665",
+		"_collection_link": "https://mitulsudani.postman.co/workspace/Mitul-Sudani's-Workspace~b23ff31a-36f5-4acf-8df5-1dd3a3961969/collection/43592665-86912048-6adb-4b29-95cd-3a3b0889aab0?action=share&source=collection_link&creator=43592665"
+	},
+	"item": [
+		{
+			"name": "User Registration",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"mitul123\",\r\n  \"email\": \"mitulsudani88@gmail.com\",\r\n  \"password\": \"cicada\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/gateway/auth/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"gateway",
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Email Verification (link ma je token ave e vaprvu)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/gateway/auth/verify?token=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2ODYzY2NjMGNiN2VkYzFmYmU4NzZjYWMiLCJlbWFpbCI6Im1pdHVsc3VkYW5pMTg4QGdtYWlsLmNvbSIsImlhdCI6MTc1MTM3MDk0NSwiZXhwIjoxNzUxNDU3MzQ1fQ.3Z7Zt4_455JI8IrVs1wzrO_2ogs0lmitE6BWfYLQZJJAe6b497Lzkix0gS3sVC5yGGK3y910Yen0uyLOxBLZqQ",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"gateway",
+						"auth",
+						"verify"
+					],
+					"query": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2ODYzY2NjMGNiN2VkYzFmYmU4NzZjYWMiLCJlbWFpbCI6Im1pdHVsc3VkYW5pMTg4QGdtYWlsLmNvbSIsImlhdCI6MTc1MTM3MDk0NSwiZXhwIjoxNzUxNDU3MzQ1fQ.3Z7Zt4_455JI8IrVs1wzrO_2ogs0lmitE6BWfYLQZJJAe6b497Lzkix0gS3sVC5yGGK3y910Yen0uyLOxBLZqQ"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"mitulsudani188@gmail.com\",\r\n  \"password\": \"cicada\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/gateway/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"gateway",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Deposit Order",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtaXR1bHN1ZGFuaTE4OEBnbWFpbC5jb20iLCJpYXQiOjE3NTEzMTQ3MDUsImV4cCI6MTc1MTQwMTEwNX0.Tx4i33vGAl17A1uuL2II0lzRIL_VsKdzBltPwrt-l9y67becSKcGJtJH07qz0cOniWSLjDAF8PLc_YnrgFjcjw",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"userId\": \"6862f02c7ce240a1e13c0f16\",\r\n  \"amount\": 500\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/gateway/payment/deposit",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"gateway",
+						"payment",
+						"deposit"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Confirm Deposit",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtaXR1bHN1ZGFuaTE4OEBnbWFpbC5jb20iLCJpYXQiOjE3NTEzMTQ3MDUsImV4cCI6MTc1MTQwMTEwNX0.Tx4i33vGAl17A1uuL2II0lzRIL_VsKdzBltPwrt-l9y67becSKcGJtJH07qz0cOniWSLjDAF8PLc_YnrgFjcjw",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"userId\": \"6862f02c7ce240a1e13c0f16\",\r\n  \"amount\": 500,\r\n  \"orderId\": \"order_Qnln42wuNcyoGQ\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/gateway/payment/confirm",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"gateway",
+						"payment",
+						"confirm"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Withdraw",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2ODYzY2NjMGNiN2VkYzFmYmU4NzZjYWMiLCJlbWFpbCI6Im1pdHVsc3VkYW5pMTg4QGdtYWlsLmNvbSIsImlhdCI6MTc1MTM3MTA4MiwiZXhwIjoxNzUxNDU3NDgyfQ.Lwyzbnfjj69SrrKp-fAo3snjGar1NZVaTECAKBohcb5YN4H5SlncY5IA5vNjA5U7wW5s5gPS3OtUwZNIBly1eA",
+						"type": "text"
+					},
+					{
+						"key": "userId",
+						"value": "6862f02c7ce240a1e13c0f16",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"amount\": 10,\r\n  \"bankDetails\": {\r\n    \"accountNumber\": \"1234567890\",\r\n    \"ifsc\": \"SBIN0001234\",\r\n    \"holderName\": \"Test User\"\r\n  }\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/gateway/payment/withdraw",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"gateway",
+						"payment",
+						"withdraw"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Place Bet",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2ODYzY2NjMGNiN2VkYzFmYmU4NzZjYWMiLCJlbWFpbCI6Im1pdHVsc3VkYW5pMTg4QGdtYWlsLmNvbSIsImlhdCI6MTc1MTM3MTA4MiwiZXhwIjoxNzUxNDU3NDgyfQ.Lwyzbnfjj69SrrKp-fAo3snjGar1NZVaTECAKBohcb5YN4H5SlncY5IA5vNjA5U7wW5s5gPS3OtUwZNIBly1eA",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"matchId\": \"England_vs_New Zealand\",\r\n  \"team\": \"New Zealand\",\r\n  \"oddAtBet\": \"2.40\",\r\n  \"amount\": 100\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/gateway/bet/place",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"gateway",
+						"bet",
+						"place"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Bets for User",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2ODYzY2NjMGNiN2VkYzFmYmU4NzZjYWMiLCJlbWFpbCI6Im1pdHVsc3VkYW5pMTg4QGdtYWlsLmNvbSIsImlhdCI6MTc1MTM3MTA4MiwiZXhwIjoxNzUxNDU3NDgyfQ.Lwyzbnfjj69SrrKp-fAo3snjGar1NZVaTECAKBohcb5YN4H5SlncY5IA5vNjA5U7wW5s5gPS3OtUwZNIBly1eA",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/gateway/bet/my-bets",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"gateway",
+						"bet",
+						"my-bets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BAKI______Get Single Bet",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2ODYzY2NjMGNiN2VkYzFmYmU4NzZjYWMiLCJlbWFpbCI6Im1pdHVsc3VkYW5pMTg4QGdtYWlsLmNvbSIsImlhdCI6MTc1MTM3MTA4MiwiZXhwIjoxNzUxNDU3NDgyfQ.Lwyzbnfjj69SrrKp-fAo3snjGar1NZVaTECAKBohcb5YN4H5SlncY5IA5vNjA5U7wW5s5gPS3OtUwZNIBly1eA",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/gateway/bet/get/BET-d6048d17-406e-48f0-bc45-c482ce33cae8",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"gateway",
+						"bet",
+						"get",
+						"BET-d6048d17-406e-48f0-bc45-c482ce33cae8"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cashout Bet",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2ODYzY2NjMGNiN2VkYzFmYmU4NzZjYWMiLCJlbWFpbCI6Im1pdHVsc3VkYW5pMTg4QGdtYWlsLmNvbSIsImlhdCI6MTc1MTM3MTA4MiwiZXhwIjoxNzUxNDU3NDgyfQ.Lwyzbnfjj69SrrKp-fAo3snjGar1NZVaTECAKBohcb5YN4H5SlncY5IA5vNjA5U7wW5s5gPS3OtUwZNIBly1eA",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/gateway/bet/cashout?betId=BET-d6048d17-406e-48f0-bc45-c482ce33cae8",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"gateway",
+						"bet",
+						"cashout"
+					],
+					"query": [
+						{
+							"key": "betId",
+							"value": "BET-d6048d17-406e-48f0-bc45-c482ce33cae8"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Settle Bets for a Match (Admin Action)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2ODYzY2NjMGNiN2VkYzFmYmU4NzZjYWMiLCJlbWFpbCI6Im1pdHVsc3VkYW5pMTg4QGdtYWlsLmNvbSIsImlhdCI6MTc1MTM3MTA4MiwiZXhwIjoxNzUxNDU3NDgyfQ.Lwyzbnfjj69SrrKp-fAo3snjGar1NZVaTECAKBohcb5YN4H5SlncY5IA5vNjA5U7wW5s5gPS3OtUwZNIBly1eA",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"matchId\": \"England_vs_New Zealand\",\r\n  \"winningTeam\": \"New Zealand\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/gateway/bet/settle",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"gateway",
+						"bet",
+						"settle"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Matches",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2ODYzY2NjMGNiN2VkYzFmYmU4NzZjYWMiLCJlbWFpbCI6Im1pdHVsc3VkYW5pMTg4QGdtYWlsLmNvbSIsImlhdCI6MTc1MTM3MTA4MiwiZXhwIjoxNzUxNDU3NDgyfQ.Lwyzbnfjj69SrrKp-fAo3snjGar1NZVaTECAKBohcb5YN4H5SlncY5IA5vNjA5U7wW5s5gPS3OtUwZNIBly1eA",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/gateway/match/all-matches",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"gateway",
+						"match",
+						"all-matches"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
