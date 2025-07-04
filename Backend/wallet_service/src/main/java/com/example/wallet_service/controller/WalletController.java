@@ -25,7 +25,6 @@ public class WalletController {
     }
 
 
-
     // Create a wallet for the authenticated user
     @PostMapping("/create")
     public ResponseEntity<Wallet> createWallet(@RequestHeader("userId") String userId) {

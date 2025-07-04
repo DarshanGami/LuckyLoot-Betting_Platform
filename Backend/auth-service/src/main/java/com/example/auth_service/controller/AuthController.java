@@ -91,7 +91,7 @@ public class AuthController {
 
         String token = jwtUtil.generateToken(user.getId(),user.getEmail());
 
-        return ResponseEntity.ok("Bearer " + token);
+        return ResponseEntity.ok(token);
     }
 
 

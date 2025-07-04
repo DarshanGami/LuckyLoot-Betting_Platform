@@ -30,6 +30,18 @@ public class GatewayJwtFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
+        // Add CORS headers to all responses (adjust origin as needed)
+        response.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
+        response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+        response.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+
+        // Allow preflight OPTIONS requests to pass through immediately
+        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+            response.setStatus(HttpServletResponse.SC_OK);
+            return;
+        }
+
         String path = request.getRequestURI();
 
         // Skip JWT check for public endpoints
@@ -59,7 +71,9 @@ public class GatewayJwtFilter implements Filter {
             }
         }
 
+        // No token provided for protected endpoints
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.getWriter().write("{\"error\": \"Authorization token missing\"}");
     }
+
 }

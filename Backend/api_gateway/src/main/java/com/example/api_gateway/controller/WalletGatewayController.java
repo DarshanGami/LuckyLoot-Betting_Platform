@@ -6,7 +6,7 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
-
+@CrossOrigin(origins = "http://localhost:5173", allowedHeaders = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.OPTIONS})
 @RestController
 @RequestMapping("/gateway/wallet")
 @RequiredArgsConstructor
@@ -31,12 +31,12 @@ public class WalletGatewayController {
 
     // ✅ Get Wallet Balance
     @GetMapping("/balance")
-    public Mono<ResponseEntity<String>> getBalance(@RequestHeader("Authorization") String authHeader,
-                                                   @RequestAttribute String userId) {
+    public Mono<ResponseEntity<String>> getWalletBalance(@RequestHeader("Authorization") String authHeader,
+                                                         @RequestAttribute String userId) {
         return webClientBuilder.build()
                 .get()
                 .uri(walletServiceBaseUrl + "/wallet/balance")
-                .header("userId", userId)
+                .header("userId", userId) // Pass userId as header
                 .retrieve()
                 .toEntity(String.class);
     }
