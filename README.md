@@ -1,3 +1,5 @@
+🚧 Work in progress!
+
 # 🎲 LuckyLoot – Real-Time Betting Platform
 
 LuckyLoot is a modern real-time betting platform enabling users to bet on live sports events and (coming soon) casino games. Built with a microservices architecture, LuckyLoot ensures low-latency updates, secure payment processing, and seamless user experiences.
