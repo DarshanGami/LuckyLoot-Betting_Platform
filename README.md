@@ -52,13 +52,6 @@ LuckyLoot is a modern real-time betting platform enabling users to bet on live s
 
 ---
 
-## 📸 Screenshots
-
-*(Add screenshots or GIFs here to showcase your UI and real-time features.)*
-
----
-
-## 📝 Installation & Setup
 
 ### Prerequisites
 
@@ -67,10 +60,3 @@ LuckyLoot is a modern real-time betting platform enabling users to bet on live s
 - MongoDB
 - Maven
 - Razorpay Developer Account
-
-### Frontend
-
-```bash
-cd luckyloot-frontend
-npm install
-npm start
